@@ -1,0 +1,423 @@
+basePath: /api/v1
+definitions:
+  github_com_yourusername_barshop-server_internal_models.Appointment:
+    properties:
+      barber:
+        $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.User'
+      barber_id:
+        type: integer
+      createdAt:
+        type: string
+      customer:
+        $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.User'
+      customer_id:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      end_time:
+        type: string
+      id:
+        type: integer
+      note:
+        type: string
+      service:
+        $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Service'
+      service_id:
+        type: integer
+      start_time:
+        type: string
+      status:
+        description: pending, confirmed, completed, cancelled
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_yourusername_barshop-server_internal_models.AppointmentRequest:
+    properties:
+      barber_id:
+        type: integer
+      note:
+        type: string
+      service_id:
+        type: integer
+      start_time:
+        type: string
+    required:
+    - barber_id
+    - service_id
+    - start_time
+    type: object
+  github_com_yourusername_barshop-server_internal_models.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  github_com_yourusername_barshop-server_internal_models.Service:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      duration:
+        description: 服务时长（分钟）
+        type: integer
+      id:
+        type: integer
+      is_active:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+      updatedAt:
+        type: string
+    type: object
+  github_com_yourusername_barshop-server_internal_models.ServiceRequest:
+    properties:
+      description:
+        type: string
+      duration:
+        minimum: 1
+        type: integer
+      name:
+        type: string
+      price:
+        minimum: 0
+        type: number
+    required:
+    - duration
+    - name
+    - price
+    type: object
+  github_com_yourusername_barshop-server_internal_models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      last_login_at:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: 这是一个理发店管理系统的API文档
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: 理发店管理系统 API
+  version: "1.0"
+paths:
+  /admin/services:
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的理发服务
+      parameters:
+      - description: 服务信息
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.ServiceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Service'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 创建新服务
+      tags:
+      - 服务管理
+  /admin/services/{id}:
+    delete:
+      description: 删除指定的服务
+      parameters:
+      - description: 服务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 删除服务
+      tags:
+      - 服务管理
+    put:
+      consumes:
+      - application/json
+      description: 更新指定服务的信息
+      parameters:
+      - description: 服务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 服务信息
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.ServiceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Service'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 更新服务信息
+      tags:
+      - 服务管理
+  /admin/services/{id}/toggle:
+    put:
+      description: 启用或禁用指定的服务
+      parameters:
+      - description: 服务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Service'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 切换服务状态
+      tags:
+      - 服务管理
+  /appointments:
+    get:
+      description: 获取用户相关的预约列表
+      parameters:
+      - description: 预约状态
+        in: query
+        name: status
+        type: string
+      - description: 开始日期 (YYYY-MM-DD)
+        in: query
+        name: start_date
+        type: string
+      - description: 结束日期 (YYYY-MM-DD)
+        in: query
+        name: end_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment'
+                  type: array
+              type: object
+      security:
+      - Bearer: []
+      summary: 获取预约列表
+      tags:
+      - 预约管理
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的理发预约
+      parameters:
+      - description: 预约信息
+        in: body
+        name: appointment
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.AppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 创建新预约
+      tags:
+      - 预约管理
+  /appointments/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: 更新指定预约的状态
+      parameters:
+      - description: 预约ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 新状态
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+      security:
+      - Bearer: []
+      summary: 更新预约状态
+      tags:
+      - 预约管理
+  /services:
+    get:
+      description: 获取所有可用的理发服务列表
+      parameters:
+      - description: 是否只显示启用的服务
+        in: query
+        name: active
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_yourusername_barshop-server_internal_models.Service'
+                  type: array
+              type: object
+      summary: 获取服务列表
+      tags:
+      - 服务管理
+securityDefinitions:
+  Bearer:
+    description: 请在此输入 Bearer {token} 格式的JWT令牌
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
