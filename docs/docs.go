@@ -49,7 +49,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.ServiceRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.ServiceRequest"
                         }
                     }
                 ],
@@ -59,13 +59,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Service"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Service"
                                         }
                                     }
                                 }
@@ -75,7 +75,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -113,7 +113,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.ServiceRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.ServiceRequest"
                         }
                     }
                 ],
@@ -123,13 +123,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Service"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Service"
                                         }
                                     }
                                 }
@@ -139,13 +139,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -177,19 +177,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -225,13 +225,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Service"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Service"
                                         }
                                     }
                                 }
@@ -241,13 +241,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -294,7 +294,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
@@ -302,7 +302,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment"
+                                                "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Appointment"
                                             }
                                         }
                                     }
@@ -336,7 +336,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.AppointmentRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.AppointmentRequest"
                         }
                     }
                 ],
@@ -346,13 +346,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Appointment"
                                         }
                                     }
                                 }
@@ -362,13 +362,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -416,13 +416,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Appointment"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Appointment"
                                         }
                                     }
                                 }
@@ -432,13 +432,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -464,7 +464,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.LoginRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.LoginRequest"
                         }
                     }
                 ],
@@ -474,7 +474,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
@@ -491,13 +491,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -523,7 +523,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.RegisterRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.RegisterRequest"
                         }
                     }
                 ],
@@ -533,13 +533,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                                         }
                                     }
                                 }
@@ -549,13 +549,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -585,7 +585,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
@@ -593,7 +593,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Service"
+                                                "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Service"
                                             }
                                         }
                                     }
@@ -625,7 +625,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
@@ -633,7 +633,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                                                "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                                             }
                                         }
                                     }
@@ -669,7 +669,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.ChangePasswordRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.ChangePasswordRequest"
                         }
                     }
                 ],
@@ -677,25 +677,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -722,13 +722,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                                         }
                                     }
                                 }
@@ -738,13 +738,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -773,7 +773,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.UpdateUserRequest"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.UpdateUserRequest"
                         }
                     }
                 ],
@@ -783,13 +783,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                                         }
                                     }
                                 }
@@ -799,19 +799,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Response"
+                            "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Response"
                         }
                     }
                 }
@@ -819,11 +819,11 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_yourusername_barshop-server_internal_models.Appointment": {
+        "github_com_zacus_barshop-server_internal_models.Appointment": {
             "type": "object",
             "properties": {
                 "barber": {
-                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                 },
                 "barber_id": {
                     "type": "integer"
@@ -832,7 +832,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "customer": {
-                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.User"
+                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.User"
                 },
                 "customer_id": {
                     "type": "integer"
@@ -850,7 +850,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "service": {
-                    "$ref": "#/definitions/github_com_yourusername_barshop-server_internal_models.Service"
+                    "$ref": "#/definitions/github_com_zacus_barshop-server_internal_models.Service"
                 },
                 "service_id": {
                     "type": "integer"
@@ -867,7 +867,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.AppointmentRequest": {
+        "github_com_zacus_barshop-server_internal_models.AppointmentRequest": {
             "type": "object",
             "required": [
                 "barber_id",
@@ -889,7 +889,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.ChangePasswordRequest": {
+        "github_com_zacus_barshop-server_internal_models.ChangePasswordRequest": {
             "type": "object",
             "required": [
                 "new_password",
@@ -905,7 +905,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.LoginRequest": {
+        "github_com_zacus_barshop-server_internal_models.LoginRequest": {
             "type": "object",
             "required": [
                 "password",
@@ -920,7 +920,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.RegisterRequest": {
+        "github_com_zacus_barshop-server_internal_models.RegisterRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -948,7 +948,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.Response": {
+        "github_com_zacus_barshop-server_internal_models.Response": {
             "type": "object",
             "properties": {
                 "code": {
@@ -960,7 +960,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.Service": {
+        "github_com_zacus_barshop-server_internal_models.Service": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -993,7 +993,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.ServiceRequest": {
+        "github_com_zacus_barshop-server_internal_models.ServiceRequest": {
             "type": "object",
             "required": [
                 "duration",
@@ -1017,7 +1017,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.UpdateUserRequest": {
+        "github_com_zacus_barshop-server_internal_models.UpdateUserRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -1036,7 +1036,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_yourusername_barshop-server_internal_models.User": {
+        "github_com_zacus_barshop-server_internal_models.User": {
             "type": "object",
             "properties": {
                 "createdAt": {

@@ -2,7 +2,7 @@ package utils
 
 import (
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/yourusername/barshop-server/internal/config"
+	"github.com/zacus/barshop-server/internal/config"
 	"time"
 )
 

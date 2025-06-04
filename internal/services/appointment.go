@@ -2,8 +2,8 @@ package services
 
 import (
 	"errors"
-	"github.com/yourusername/barshop-server/internal/database"
-	"github.com/yourusername/barshop-server/internal/models"
+	"github.com/zacus/barshop-server/internal/database"
+	"github.com/zacus/barshop-server/internal/models"
 	"time"
 )
 

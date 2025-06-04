@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/yourusername/barshop-server/internal/database"
-	"github.com/yourusername/barshop-server/internal/models"
+	"github.com/zacus/barshop-server/internal/database"
+	"github.com/zacus/barshop-server/internal/models"
 )
 
 type ServiceService struct{}

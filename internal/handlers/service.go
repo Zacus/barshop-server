@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/barshop-server/internal/models"
-	"github.com/yourusername/barshop-server/internal/services"
+	"github.com/zacus/barshop-server/internal/models"
+	"github.com/zacus/barshop-server/internal/services"
 	"net/http"
 	"strconv"
 )

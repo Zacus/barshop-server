@@ -1,3 +1,13 @@
+<!--
+ * @Author: zs
+ * @Date: 2025-06-04 19:06:12
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-04 20:00:36
+ * @FilePath: /barshop-server/README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+-->
 # Barshop Server
 
 理发店管理系统服务端
@@ -43,71 +53,6 @@ barshop-server/
 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/barshop-server.git
+git clone https://github.com/zacus/barshop-server.git
 cd barshop-server
 ```
-
-2. 安装依赖
-
-```bash
-go mod download
-```
-
-3. 配置数据库
-
-创建`config.yaml`文件：
-
-```yaml
-server:
-  port: "8080"
-  mode: "debug"
-
-database:
-  host: "localhost"
-  port: 5432
-  user: "postgres"
-  password: "your_password"
-  dbname: "barshop"
-  sslmode: "disable"
-
-redis:
-  host: "localhost"
-  port: 6379
-  db: 0
-
-jwt:
-  secret: "your_jwt_secret"
-  expire: "24h"
-
-log:
-  level: "debug"
-  is_dev: true
-```
-
-4. 运行服务
-
-```bash
-go run cmd/api/main.go
-```
-
-## API文档
-
-启动服务后访问：`http://localhost:8080/swagger/index.html`
-
-## 开发
-
-### 生成Swagger文档
-
-```bash
-swag init -g cmd/api/main.go
-```
-
-### 运行测试
-
-```bash
-go test ./...
-```
-
-## 许可证
-
-MIT License 

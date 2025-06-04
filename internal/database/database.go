@@ -1,9 +1,19 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-04 19:06:12
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-04 19:59:43
+ * @FilePath: /barshop-server/internal/database/database.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package database
 
 import (
 	"fmt"
-	"github.com/yourusername/barshop-server/internal/config"
-	"github.com/yourusername/barshop-server/internal/models"
+	"github.com/zacus/barshop-server/internal/config"
+	"github.com/zacus/barshop-server/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
