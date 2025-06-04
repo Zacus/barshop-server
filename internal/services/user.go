@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/zacus/barshop-server/internal/database"
 	"github.com/zacus/barshop-server/internal/models"
+	"github.com/zacus/barshop-server/internal/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -15,56 +16,52 @@ func NewUserService() *UserService {
 }
 
 // Register 用户注册
-func (s *UserService) Register(req *models.RegisterRequest) (*models.User, error) {
+func (s *UserService) Register(user *models.User) error {
 	// 检查用户名是否已存在
 	var existingUser models.User
-	if err := database.DB.Where("username = ?", req.Username).First(&existingUser).Error; err == nil {
-		return nil, errors.New("用户名已存在")
+	if err := database.DB.Where("username = ?", user.Username).First(&existingUser).Error; err == nil {
+		return errors.New("用户名已存在")
 	} else if err != gorm.ErrRecordNotFound {
-		return nil, err
+		return err
 	}
 
 	// 加密密码
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, err
+		return err
 	}
+	user.Password = string(hashedPassword)
 
 	// 创建新用户
-	user := &models.User{
-		Username: req.Username,
-		Password: string(hashedPassword),
-		Name:     req.Name,
-		Phone:    req.Phone,
-		Email:    req.Email,
-		Role:     "customer", // 默认角色为顾客
-	}
-
 	if err := database.DB.Create(user).Error; err != nil {
-		return nil, err
+		return err
 	}
 
-	user.Password = "" // 清空密码，不返回给客户端
-	return user, nil
+	return nil
 }
 
 // Login 用户登录
-func (s *UserService) Login(req *models.LoginRequest) (*models.User, error) {
+func (s *UserService) Login(username, password string) (string, error) {
 	var user models.User
-	if err := database.DB.Where("username = ?", req.Username).First(&user).Error; err != nil {
+	if err := database.DB.Where("username = ?", username).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, errors.New("用户不存在")
+			return "", errors.New("用户不存在")
 		}
-		return nil, err
+		return "", err
 	}
 
 	// 验证密码
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
-		return nil, errors.New("密码错误")
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return "", errors.New("密码错误")
 	}
 
-	user.Password = "" // 清空密码，不返回给客户端
-	return &user, nil
+	// 生成JWT令牌
+	token, err := utils.GenerateToken(user.ID)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 // GetUserByID 根据ID获取用户信息
@@ -81,11 +78,11 @@ func (s *UserService) GetUserByID(id uint) (*models.User, error) {
 	return &user, nil
 }
 
-// UpdateUser 更新用户信息
-func (s *UserService) UpdateUser(id uint, req *models.UpdateUserRequest) (*models.User, error) {
+// UpdateProfile 更新用户信息
+func (s *UserService) UpdateProfile(id uint, req *models.UpdateUserRequest) error {
 	var user models.User
 	if err := database.DB.First(&user, id).Error; err != nil {
-		return nil, err
+		return err
 	}
 
 	// 更新用户信息
@@ -95,12 +92,7 @@ func (s *UserService) UpdateUser(id uint, req *models.UpdateUserRequest) (*model
 		"email": req.Email,
 	}
 
-	if err := database.DB.Model(&user).Updates(updates).Error; err != nil {
-		return nil, err
-	}
-
-	user.Password = "" // 清空密码，不返回给客户端
-	return &user, nil
+	return database.DB.Model(&user).Updates(updates).Error
 }
 
 // ListBarbers 获取理发师列表
@@ -138,4 +130,4 @@ func (s *UserService) ChangePassword(id uint, oldPassword, newPassword string) e
 
 	// 更新密码
 	return database.DB.Model(&user).Update("password", string(hashedPassword)).Error
-} 
+}
