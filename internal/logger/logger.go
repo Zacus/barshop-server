@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-03 18:01:24
  * @LastEditors: zs
- * @LastEditTime: 2025-06-03 18:09:27
+ * @LastEditTime: 2025-06-04 17:55:36
  * @FilePath: /barshop-server/internal/logger/logger.go
  * @Description: 
  * 
@@ -19,12 +19,11 @@ import (
 	"time"
 )
 
-var Log *zap.Logger
-
-// Error 将error转换为zap.Field
-func Error(err error) zap.Field {
-	return zap.Error(err)
+type Logger struct {
+	zapLogger *zap.Logger
 }
+
+var defaultLogger *Logger
 
 // InitLogger 初始化日志系统
 func InitLogger(level string, isDevelopment bool) error {
@@ -57,49 +56,79 @@ func InitLogger(level string, isDevelopment bool) error {
 
 	// 创建核心
 	var core zapcore.Core
+
 	if isDevelopment {
-		// 开发模式：同时写入文件和控制台
+		// 开发模式：输出到控制台
 		consoleEncoder := zapcore.NewConsoleEncoder(encoderConfig)
-		consoleCore := zapcore.NewCore(
+		core = zapcore.NewCore(
 			consoleEncoder,
 			zapcore.AddSync(os.Stdout),
 			logLevel,
 		)
-
-		// 文件输出
-		now := time.Now()
-		logFile := filepath.Join(logDir, fmt.Sprintf("%s.log", now.Format("2006-01-02")))
-		writer, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to open log file: %v", err)
-		}
-
-		fileEncoder := zapcore.NewJSONEncoder(encoderConfig)
-		fileCore := zapcore.NewCore(
-			fileEncoder,
-			zapcore.AddSync(writer),
-			logLevel,
-		)
-
-		core = zapcore.NewTee(consoleCore, fileCore)
 	} else {
-		// 生产模式：只写入文件
+		// 生产模式：同时输出到文件和控制台
 		now := time.Now()
-		logFile := filepath.Join(logDir, fmt.Sprintf("%s.log", now.Format("2006-01-02")))
-		writer, err := os.OpenFile(logFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		logfile := filepath.Join(logDir, fmt.Sprintf("%s.log", now.Format("2006-01-02")))
+		writer, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 		if err != nil {
-			return fmt.Errorf("failed to open log file: %v", err)
+			return fmt.Errorf("failed to create log file: %v", err)
 		}
 
-		fileEncoder := zapcore.NewJSONEncoder(encoderConfig)
-		core = zapcore.NewCore(
-			fileEncoder,
-			zapcore.AddSync(writer),
-			logLevel,
+		jsonEncoder := zapcore.NewJSONEncoder(encoderConfig)
+		core = zapcore.NewTee(
+			zapcore.NewCore(jsonEncoder, zapcore.AddSync(writer), logLevel),
+			zapcore.NewCore(jsonEncoder, zapcore.AddSync(os.Stdout), logLevel),
 		)
 	}
 
-	// 创建logger
-	Log = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.ErrorLevel))
+	// 创建日志记录器
+	zapLogger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	defaultLogger = &Logger{zapLogger: zapLogger}
 	return nil
+}
+
+// Debug 输出Debug级别日志
+func Debug(msg string, args ...interface{}) {
+	fields := makeFields(args...)
+	defaultLogger.zapLogger.Debug(msg, fields...)
+}
+
+// Info 输出Info级别日志
+func Info(msg string, args ...interface{}) {
+	fields := makeFields(args...)
+	defaultLogger.zapLogger.Info(msg, fields...)
+}
+
+// Warn 输出Warn级别日志
+func Warn(msg string, args ...interface{}) {
+	fields := makeFields(args...)
+	defaultLogger.zapLogger.Warn(msg, fields...)
+}
+
+// Error 输出Error级别日志
+func Error(msg string, args ...interface{}) {
+	fields := makeFields(args...)
+	defaultLogger.zapLogger.Error(msg, fields...)
+}
+
+// Fatal 输出Fatal级别日志
+func Fatal(msg string, args ...interface{}) {
+	fields := makeFields(args...)
+	defaultLogger.zapLogger.Fatal(msg, fields...)
+}
+
+// Sync 同步日志缓冲
+func Sync() error {
+	return defaultLogger.zapLogger.Sync()
+}
+
+// makeFields 将参数转换为zap.Field
+func makeFields(args ...interface{}) []zap.Field {
+	fields := make([]zap.Field, 0, len(args))
+	for i := 0; i < len(args); i += 2 {
+		if i+1 < len(args) {
+			fields = append(fields, zap.Any(fmt.Sprint(args[i]), args[i+1]))
+		}
+	}
+	return fields
 } 

@@ -50,11 +50,11 @@ func main() {
 		fmt.Printf("Failed to initialize logger: %v\n", err)
 		os.Exit(1)
 	}
-	defer logger.Log.Sync()
+	defer logger.Sync()
 
 	// 初始化数据库
 	if err := database.InitDB(cfg); err != nil {
-		logger.Log.Fatal("Failed to initialize database", logger.Error(err))
+		logger.Fatal("Failed to initialize database", "error", err)
 	}
 
 	// 设置gin模式
@@ -66,21 +66,31 @@ func main() {
 	// 基础中间件
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.CORS()) // 添加CORS中间件
 
 	// Swagger文档路由
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 创建服务实例
+	userService := services.NewUserService()
 	serviceService := services.NewServiceService()
 	appointmentService := services.NewAppointmentService()
 
 	// 创建处理器实例
+	userHandler := handlers.NewUserHandler(userService)
 	serviceHandler := handlers.NewServiceHandler(serviceService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 
 	// API路由组
 	api := r.Group("/api/v1")
 	{
+		// 认证路由（无需登录）
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", userHandler.Register)
+			auth.POST("/login", userHandler.Login)
+		}
+
 		// 公开路由
 		public := api.Group("/")
 		{
@@ -99,6 +109,15 @@ func main() {
 		protected := api.Group("/")
 		protected.Use(middleware.AuthMiddleware(cfg.JWT.Secret))
 		{
+			// 用户相关路由
+			users := protected.Group("/users")
+			{
+				users.GET("/profile", userHandler.GetProfile)
+				users.PUT("/profile", userHandler.UpdateProfile)
+				users.PUT("/password", userHandler.ChangePassword)
+				users.GET("/barbers", userHandler.ListBarbers)
+			}
+
 			// 预约相关路由
 			appointments := protected.Group("/appointments")
 			{
@@ -109,6 +128,7 @@ func main() {
 
 			// 服务管理路由（仅管理员）
 			services := protected.Group("/admin/services")
+			services.Use(middleware.AdminOnly())
 			{
 				services.POST("/", serviceHandler.Create)
 				services.PUT("/:id", serviceHandler.Update)
@@ -124,14 +144,12 @@ func main() {
 
 	go func() {
 		addr := fmt.Sprintf(":%s", cfg.Server.Port)
-		//logger.Log.Info("Server starting", addr)
+		logger.Info("Server starting", "address", addr)
 		if err := r.Run(addr); err != nil {
-			logger.Log.Fatal("Failed to start server", logger.Error(err))
+			logger.Fatal("Failed to start server", "error", err)
 		}
 	}()
 
 	<-quit
-	logger.Log.Info("Shutting down server...")
-
-	// 这里可以添加清理工作，如关闭数据库连接等
+	logger.Info("Shutting down server...")
 } 

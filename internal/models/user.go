@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-05-30 11:58:23
  * @LastEditors: zs
- * @LastEditTime: 2025-06-04 17:06:47
+ * @LastEditTime: 2025-06-04 17:37:14
  * @FilePath: /barshop-server/internal/models/user.go
  * @Description: 
  * 
@@ -22,7 +22,7 @@ type User struct {
 	Name        string    `gorm:"size:50" json:"name"`
 	Phone       string    `gorm:"size:20" json:"phone"`
 	Email       string    `gorm:"size:100" json:"email"`
-	Role        string    `gorm:"size:20" json:"role"`
+	Role        string    `gorm:"size:20" json:"role"` // customer, barber, admin
 	LastLoginAt time.Time `json:"last_login_at"`
 }
 
@@ -33,8 +33,19 @@ type LoginRequest struct {
 
 type RegisterRequest struct {
 	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Password string `json:"password" binding:"required,min=6"`
 	Name     string `json:"name" binding:"required"`
 	Phone    string `json:"phone" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
+}
+
+type UpdateUserRequest struct {
+	Name  string `json:"name" binding:"required"`
+	Phone string `json:"phone" binding:"required"`
+	Email string `json:"email" binding:"required,email"`
+}
+
+type ChangePasswordRequest struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required,min=6"`
 } 
