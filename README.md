@@ -8,51 +8,192 @@
  * 
  * Copyright (c) 2025 by zs, All Rights Reserved. 
 -->
-# Barshop Server
+# 巴巴理发店管理系统
 
-理发店管理系统服务端
+## 项目简介
 
-## 功能特性
+巴巴理发店管理系统是一个现代化的理发店管理解决方案，帮助理发店提升运营效率和客户服务质量。
 
-- 用户管理（顾客、理发师）
-- 服务管理
+### 主要功能
+
 - 预约管理
-- JWT认证
-- 日志系统
-- Swagger API文档
+- 服务项目管理
+- 会员管理
+- 收银结算
+- 数据统计分析
 
 ## 技术栈
 
-- Go 1.24
-- Gin Web框架
-- GORM
-- PostgreSQL
-- Zap日志
-- Swagger文档
+- 后端：Go
+- 数据库：PostgreSQL
+- 日志：Zap
+- 配置：YAML
+
+## 系统要求
+
+- Go 1.20 或以上
+- PostgreSQL 14 或以上
+- Python 3.8 或以上（用于构建和部署脚本）
+
+## 快速开始
+
+### 1. 安装依赖
+
+```bash
+# 安装 Python 依赖
+cd scripts
+pip install -r requirements.txt
+
+# 安装 Go 依赖
+go mod download
+```
+
+### 2. 配置
+
+复制示例配置文件并修改：
+
+```bash
+cp config.yaml.example config.yaml
+```
+
+主要配置项：
+```yaml
+server:
+  port: 8080
+  
+database:
+  host: localhost
+  port: 5432
+  name: barshop
+  user: postgres
+  password: your_password
+
+log:
+  level: info
+  path: logs/app.log
+```
+
+### 3. 构建和运行
+
+#### 本地开发环境
+
+```bash
+# 构建
+./scripts/build.sh local
+
+# 运行
+./bin/barshop-server
+```
+
+#### 生产环境部署
+
+1. 创建发布包：
+```bash
+./scripts/build.sh release
+```
+
+2. 解压并运行：
+```bash
+tar xzf barshop-server-*.tar.gz
+cd barshop-server-*
+
+# 修改配置
+vim config.yaml
+
+# 运行
+./bin/barshop-server
+```
+
+#### Docker 环境
+
+```bash
+# 构建镜像
+./scripts/build.sh docker
+
+# 运行容器
+docker run -d \
+  -p 8080:8080 \
+  -v $(pwd)/config.yaml:/app/config.yaml \
+  -v $(pwd)/logs:/app/logs \
+  barshop-server:latest
+```
 
 ## 项目结构
 
 ```
-barshop-server/
-├── cmd/                # 应用程序入口
-│   └── api/           # API服务器
-├── internal/          # 内部包
-│   ├── config/       # 配置
-│   ├── database/     # 数据库
-│   ├── handlers/     # HTTP处理器
-│   ├── logger/       # 日志
-│   ├── middleware/   # 中间件
-│   ├── models/       # 数据模型
-│   └── services/     # 业务逻辑
-├── docs/             # 文档
-└── logs/             # 日志文件
+.
+├── bin/                  # 构建输出目录
+├── cmd/                  # 入口文件
+├── internal/             # 内部代码
+│   ├── handlers/        # HTTP 处理器
+│   ├── models/          # 数据模型
+│   └── services/        # 业务逻辑
+├── config.yaml          # 配置文件
+├── scripts/             # 构建和部署脚本
+│   ├── build.sh        # 构建脚本
+│   ├── deploy.sh       # 部署脚本
+│   ├── package.py      # 打包脚本
+│   └── requirements.txt # Python 依赖
+└── logs/                # 日志目录
 ```
 
-## 快速开始
+## 脚本说明
 
-1. 克隆项目
+### build.sh
 
+构建脚本，支持以下命令：
 ```bash
-git clone https://github.com/zacus/barshop-server.git
-cd barshop-server
+./scripts/build.sh clean    # 清理构建文件
+./scripts/build.sh local    # 本地构建
+./scripts/build.sh docker   # 构建 Docker 镜像
+./scripts/build.sh release  # 构建发布包
 ```
+
+### deploy.sh
+
+部署脚本，支持以下命令：
+```bash
+export DEPLOY_HOST="your-server"  # 设置部署服务器
+export DEPLOY_USER="deploy"       # 设置部署用户
+export APP_PORT="8080"           # 设置应用端口
+
+./scripts/deploy.sh setup    # 设置部署环境
+./scripts/deploy.sh deploy   # 部署应用
+./scripts/deploy.sh docker   # 部署 Docker 容器
+```
+
+## 发布包结构
+
+```
+barshop-server-v1.0.0/
+├── bin/
+│   └── barshop-server    # 可执行文件
+├── config.yaml           # 配置文件
+├── scripts/              # 管理脚本
+└── logs/                # 日志目录
+```
+
+## 常见问题
+
+### 1. 配置文件找不到
+
+确保：
+- 配置文件 `config.yaml` 与可执行文件在同一目录
+- 或者在程序运行目录下有 `config.yaml`
+
+### 2. 日志目录权限
+
+确保：
+- `logs` 目录存在
+- 运行程序的用户有写入权限
+
+### 3. 数据库连接
+
+检查：
+- 数据库配置是否正确
+- 数据库服务是否运行
+- 网络连接是否正常
+
+## 许可证
+
+本项目采用 MIT 许可证
