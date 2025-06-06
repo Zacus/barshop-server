@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/zacus/barshop-server/internal/cache"
 	"github.com/zacus/barshop-server/internal/config"
 	"github.com/zacus/barshop-server/internal/database"
 	"github.com/zacus/barshop-server/internal/handlers"
@@ -56,6 +57,12 @@ func main() {
 	if err := database.InitDB(cfg); err != nil {
 		logger.Fatal("Failed to initialize database", "error", err)
 	}
+
+	// 初始化Redis缓存
+	if err := cache.InitRedis(cfg); err != nil {
+		logger.Fatal("Failed to initialize Redis", "error", err)
+	}
+	defer cache.Close()
 
 	// 设置gin模式
 	gin.SetMode(cfg.Server.Mode)

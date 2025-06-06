@@ -1,3 +1,13 @@
+/*
+ * @Author: zs
+ * @Date: 2025-05-30 11:58:06
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-04 20:29:17
+ * @FilePath: /barshop-server/internal/config/config.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package config
 
 import (
@@ -10,6 +20,7 @@ type Config struct {
 	Redis    RedisConfig    `mapstructure:"redis"`
 	JWT      JWTConfig     `mapstructure:"jwt"`
 	Log      LogConfig     `mapstructure:"log"`
+	Cache    CacheConfig   `mapstructure:"cache"`
 }
 
 type ServerConfig struct {
