@@ -1,18 +1,22 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-04 19:31:16
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-07 16:22:51
+ * @FilePath: /barshop-server/cmd/api/main.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/zacus/barshop-server/internal/cache"
 	"github.com/zacus/barshop-server/internal/config"
 	"github.com/zacus/barshop-server/internal/database"
-	"github.com/zacus/barshop-server/internal/handlers"
 	"github.com/zacus/barshop-server/internal/logger"
-	"github.com/zacus/barshop-server/internal/middleware"
-	"github.com/zacus/barshop-server/internal/services"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/files"
-	_ "github.com/zacus/barshop-server/docs"
+	"github.com/zacus/barshop-server/internal/router"
 	"os"
 	"os/signal"
 	"syscall"
@@ -64,95 +68,19 @@ func main() {
 	}
 	defer cache.Close()
 
-	// 设置gin模式
-	gin.SetMode(cfg.Server.Mode)
-
-	// 创建路由
-	r := gin.Default()
-
-	// 基础中间件
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
-	r.Use(middleware.CORS()) // 添加CORS中间件
-
-	// Swagger文档路由
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	// 创建服务实例
-	userService := services.NewUserService()
-	serviceService := services.NewServiceService()
-	appointmentService := services.NewAppointmentService()
-
-	// 创建处理器实例
-	userHandler := handlers.NewUserHandler(userService)
-	serviceHandler := handlers.NewServiceHandler(serviceService)
-	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
-
-	// API路由组
-	api := r.Group("/api/v1")
-	{
-		// 认证路由（无需登录）
-		auth := api.Group("/auth")
-		{
-			auth.POST("/register", userHandler.Register)
-			auth.POST("/login", userHandler.Login)
-		}
-
-		// 公开路由
-		public := api.Group("/")
-		{
-			public.GET("/health", func(c *gin.Context) {
-				c.JSON(200, gin.H{
-					"status": "ok",
-					"message": "服务正常运行",
-				})
-			})
-
-			// 服务相关路由
-			public.GET("/services", serviceHandler.List)
-		}
-
-		// 需要认证的路由
-		protected := api.Group("/")
-		protected.Use(middleware.AuthMiddleware(cfg.JWT.Secret))
-		{
-			// 用户相关路由
-			users := protected.Group("/users")
-			{
-				users.GET("/profile", userHandler.GetProfile)
-				users.PUT("/profile", userHandler.UpdateProfile)
-				users.PUT("/password", userHandler.ChangePassword)
-				users.GET("/barbers", userHandler.ListBarbers)
-			}
-
-			// 预约相关路由
-			appointments := protected.Group("/appointments")
-			{
-				appointments.POST("/", appointmentHandler.Create)
-				appointments.GET("/", appointmentHandler.List)
-				appointments.PUT("/:id/status", appointmentHandler.UpdateStatus)
-			}
-
-			// 服务管理路由（仅管理员）
-			services := protected.Group("/admin/services")
-			services.Use(middleware.AdminOnly())
-			{
-				services.POST("/", serviceHandler.Create)
-				services.PUT("/:id", serviceHandler.Update)
-				services.DELETE("/:id", serviceHandler.Delete)
-				services.PUT("/:id/toggle", serviceHandler.ToggleStatus)
-			}
-		}
-	}
+	// 创建路由管理器
+	r := router.NewRouter(cfg)
+	
+	// 初始化路由
+	r.InitRoutes()
 
 	// 优雅关闭
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
-		addr := fmt.Sprintf(":%s", cfg.Server.Port)
-		logger.Info("Server starting", "address", addr)
-		if err := r.Run(addr); err != nil {
+		logger.Info("Server starting", "port", cfg.Server.Port)
+		if err := r.Run(); err != nil {
 			logger.Fatal("Failed to start server", "error", err)
 		}
 	}()
