@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-04 19:06:12
  * @LastEditors: zs
- * @LastEditTime: 2025-06-09 17:30:54
+ * @LastEditTime: 2025-06-09 17:50:25
  * @FilePath: /barshop-server/README.md
  * @Description: 
  * 
@@ -144,19 +144,25 @@ docker run -d \
 
 ```
 .
-├── bin/                  # 构建输出目录
-├── cmd/                  # 入口文件
-├── internal/             # 内部代码
-│   ├── handlers/        # HTTP 处理器
-│   ├── models/          # 数据模型
-│   └── services/        # 业务逻辑
-├── config.yaml          # 配置文件
-├── scripts/             # 构建和部署脚本
-│   ├── build.sh        # 构建脚本
-│   ├── deploy.sh       # 部署脚本
-│   ├── package.py      # 打包脚本
-│   └── requirements.txt # Python 依赖
-└── logs/                # 日志目录
+├── cmd/api/          # 应用入口
+├── configs/          # 配置文件
+├── docs/            # API文档
+├── internal/        # 内部代码
+│   ├── cache/      # 缓存实现
+│   ├── config/     # 配置管理
+│   ├── database/   # 数据库管理
+│   │   ├── manager/   # 数据库管理器
+│   │   └── transaction/ # 事务管理
+│   ├── handlers/   # HTTP处理器
+│   ├── middleware/ # 中间件
+│   ├── models/     # 数据模型
+│   ├── repository/ # 数据访问层
+│   │   ├── postgres/     # PostgreSQL实现
+│   │   └── repointerface/ # 仓储接口
+│   ├── router/     # 路由管理
+│   ├── services/   # 业务逻辑
+│   └── utils/      # 工具函数
+└── scripts/        # 部署脚本
 ```
 
 ## 脚本说明
