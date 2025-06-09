@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-04 19:31:16
  * @LastEditors: zs
- * @LastEditTime: 2025-06-08 23:49:07
+ * @LastEditTime: 2025-06-09 17:26:15
  * @FilePath: /barshop-server/cmd/api/main.go
  * @Description: 
  * 
@@ -58,7 +58,7 @@ func main() {
 	defer logger.Sync()
 
 	// 初始化数据库
-	dbManager, err := manager.NewDBManager(manager.DBTypePostgres)
+	dbManager, err := manager.NewDBManager(cfg.Database.Driver)
 	if err != nil {
 		logger.Fatal("Failed to create database manager", "error", err)
 	}
