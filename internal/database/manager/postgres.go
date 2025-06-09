@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-08 16:30:37
  * @LastEditors: zs
- * @LastEditTime: 2025-06-09 17:14:47
+ * @LastEditTime: 2025-06-09 17:35:32
  * @FilePath: /barshop-server/internal/database/manager/postgres.go
  * @Description: PostgreSQL 数据库管理器实现
  */
@@ -17,6 +17,7 @@ import (
 	"github.com/zacus/barshop-server/internal/config"
 	"github.com/zacus/barshop-server/internal/repository"
 	"github.com/zacus/barshop-server/internal/database/transaction"
+	"github.com/zacus/barshop-server/internal/models"
 )
 
 // PostgresManager PostgreSQL管理器实现
@@ -57,6 +58,20 @@ func (m *PostgresManager) Initialize(cfg *config.Config) error {
 	sqlDB.SetMaxOpenConns(cfg.Database.Options.MaxOpenConns)
 	sqlDB.SetConnMaxLifetime(time.Duration(cfg.Database.Options.ConnMaxLifetime) * time.Minute)
 	sqlDB.SetConnMaxIdleTime(time.Duration(cfg.Database.Options.ConnMaxIdleTime) * time.Minute)
+
+	models := []interface{}{
+		&models.User{},
+		&models.Service{},
+		&models.Appointment{},
+	}
+	
+	if cfg.Database.AutoMigrate {
+		if err := db.AutoMigrate(
+			models...,
+			); err != nil {
+			return fmt.Errorf("failed to migrate database: %v", err)
+		}
+	}
 
 	m.db = db
 	m.config = cfg

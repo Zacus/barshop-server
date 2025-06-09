@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-04 19:06:12
  * @LastEditors: zs
- * @LastEditTime: 2025-06-04 20:00:36
+ * @LastEditTime: 2025-06-09 17:30:54
  * @FilePath: /barshop-server/README.md
  * @Description: 
  * 
@@ -59,18 +59,40 @@ cp config.yaml.example config.yaml
 主要配置项：
 ```yaml
 server:
-  port: 8080
-  
+  port: "8080"
+  mode: "debug"
+
 database:
-  host: localhost
+  driver: "postgres"  # 可选: postgres, mysql
+  host: "localhost"
   port: 5432
-  name: barshop
-  user: postgres
-  password: your_password
+  user: "postgres"
+  password: "your_password"
+  dbname: "barshop"
+  sslmode: "disable"  # PostgreSQL专用
+  charset: "utf8mb4"  # MySQL专用
+  auto_migrate: false  # 默认不进行自动迁移
+  options:
+    max_idle_conns: 10
+    max_open_conns: 100
+    conn_max_lifetime: 60  # 分钟
+    conn_max_idle_time: 10 # 分钟
+    debug: true
+
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  password: ""
+  pool_size: 100
+
+jwt:
+  secret: "your-secret-key"
+  expire: "24h"
 
 log:
-  level: info
-  path: logs/app.log
+  level: "debug"
+  is_dev: true
 ```
 
 ### 3. 构建和运行
