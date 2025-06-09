@@ -1,16 +1,31 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-04 16:52:48
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-08 00:46:47
+ * @FilePath: /barshop-server/internal/models/service.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package models
 
 import (
+	"time"
 	"gorm.io/gorm"
 )
 
 type Service struct {
-	gorm.Model
+	ID          uint      `gorm:"primaryKey;autoIncrement" json:"id"`
+	CreatedAt   time.Time `gorm:"index" json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
 	Name        string  `gorm:"size:100" json:"name"`
 	Description string  `gorm:"type:text" json:"description"`
-	Duration    int     `json:"duration"` // 服务时长（分钟）
-	Price       float64 `json:"price"`
-	IsActive    bool    `gorm:"default:true" json:"is_active"`
+	Duration    int     `gorm:"not null;default:30" json:"duration"` // 服务时长（分钟）
+	Price       float64 `gorm:"type:decimal(10,2);not null" json:"price"`
+	IsActive    bool    `gorm:"default:true;index" json:"is_active"`
+	CategoryID  uint    `gorm:"index" json:"category_id"`
 }
 
 type ServiceRequest struct {

@@ -1,3 +1,13 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-07 16:34:18
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-09 16:49:35
+ * @FilePath: /barshop-server/internal/router/auth_routes.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package router
 
 import (
@@ -14,7 +24,7 @@ type AuthRoutes struct {
 func NewAuthRoutes(userService *services.UserService) *AuthRoutes {
 	return &AuthRoutes{
 		BaseRouterGroup: NewBaseRouterGroup("/auth"),
-		userService:     userService,
+		userService: userService,
 	}
 }
 

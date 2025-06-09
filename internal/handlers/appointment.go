@@ -14,7 +14,9 @@ type AppointmentHandler struct {
 }
 
 func NewAppointmentHandler(service *services.AppointmentService) *AppointmentHandler {
-	return &AppointmentHandler{service: service}
+	return &AppointmentHandler{
+		service: service,
+	}
 }
 
 // Create 创建预约
@@ -36,7 +38,7 @@ func (h *AppointmentHandler) Create(c *gin.Context) {
 	}
 
 	customerID := c.GetUint("user_id")
-	appointment, err := h.service.CreateAppointment(customerID, &req)
+	appointment, err := h.service.CreateAppointment(c.Request.Context(), customerID, &req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -76,7 +78,7 @@ func (h *AppointmentHandler) List(c *gin.Context) {
 		}
 	}
 
-	appointments, err := h.service.GetAppointments(userID, role, status, startDate, endDate)
+	appointments, err := h.service.GetAppointments(c.Request.Context(), userID, role, status, startDate, endDate)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -112,7 +114,7 @@ func (h *AppointmentHandler) UpdateStatus(c *gin.Context) {
 		return
 	}
 
-	appointment, err := h.service.UpdateAppointmentStatus(uint(id), req.Status)
+	appointment, err := h.service.UpdateAppointmentStatus(c.Request.Context(), uint(id), req.Status)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return

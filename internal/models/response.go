@@ -1,3 +1,13 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-04 16:53:38
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-08 14:44:03
+ * @FilePath: /barshop-server/internal/models/response.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package models
 
 // Response 通用响应结构

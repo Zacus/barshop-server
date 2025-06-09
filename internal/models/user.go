@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-05-30 11:58:23
  * @LastEditors: zs
- * @LastEditTime: 2025-06-04 20:12:18
+ * @LastEditTime: 2025-06-08 00:46:23
  * @FilePath: /barshop-server/internal/models/user.go
  * @Description: 
  * 
@@ -18,14 +18,18 @@ import (
 )
 
 type User struct {
-	gorm.Model
-	Username    string    `gorm:"uniqueIndex;size:50" json:"username" validate:"required,username"`
-	Password    string    `gorm:"size:100" json:"-" validate:"required,password_strength"`
-	Name        string    `gorm:"size:50" json:"name" validate:"required,min=2,max=50"`
-	Phone       string    `gorm:"size:20" json:"phone" validate:"required,phone_cn"`
-	Email       string    `gorm:"size:100" json:"email" validate:"required,email"`
-	Role        string    `gorm:"size:20" json:"role" validate:"required,oneof=customer barber admin"` 
-	LastLoginAt time.Time `json:"last_login_at"`
+	ID          uint      `gorm:"primaryKey;autoIncrement" json:"id"`
+	CreatedAt   time.Time `gorm:"index" json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
+	Username    string    `gorm:"uniqueIndex;size:50;not null" json:"username" validate:"required,username"`
+	Password    string    `gorm:"size:100;not null" json:"-" validate:"required,password_strength"`
+	Name        string    `gorm:"size:50;index;not null" json:"name" validate:"required,min=2,max=50"`
+	Phone       string    `gorm:"size:20;uniqueIndex;not null" json:"phone" validate:"required,phone_cn"`
+	Email       string    `gorm:"size:100;uniqueIndex;not null" json:"email" validate:"required,email"`
+	Role        string    `gorm:"size:20;index;not null;default:'customer'" json:"role" validate:"required,oneof=customer barber admin"` 
+	LastLoginAt time.Time `gorm:"index" json:"last_login_at"`
+	Status      string    `gorm:"size:20;index;not null;default:'active'" json:"status" validate:"required,oneof=active inactive blocked"`
 }
 
 type LoginRequest struct {

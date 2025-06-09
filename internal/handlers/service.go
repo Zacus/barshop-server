@@ -13,7 +13,9 @@ type ServiceHandler struct {
 }
 
 func NewServiceHandler(service *services.ServiceService) *ServiceHandler {
-	return &ServiceHandler{service: service}
+	return &ServiceHandler{
+		service: service,
+	}
 }
 
 // Create 创建服务
@@ -34,7 +36,7 @@ func (h *ServiceHandler) Create(c *gin.Context) {
 		return
 	}
 
-	service, err := h.service.CreateService(&req)
+	service, err := h.service.CreateService(c.Request.Context(), &req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -53,7 +55,7 @@ func (h *ServiceHandler) Create(c *gin.Context) {
 // @Router /services [get]
 func (h *ServiceHandler) List(c *gin.Context) {
 	activeOnly := c.Query("active") == "true"
-	services, err := h.service.GetServices(activeOnly)
+	services, err := h.service.GetServices(c.Request.Context(), activeOnly)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -87,7 +89,7 @@ func (h *ServiceHandler) Update(c *gin.Context) {
 		return
 	}
 
-	service, err := h.service.UpdateService(uint(id), &req)
+	service, err := h.service.UpdateService(c.Request.Context(), uint(id), &req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -113,7 +115,7 @@ func (h *ServiceHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	if err := h.service.DeleteService(uint(id)); err != nil {
+	if err := h.service.DeleteService(c.Request.Context(), uint(id)); err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
 	}
@@ -138,7 +140,7 @@ func (h *ServiceHandler) ToggleStatus(c *gin.Context) {
 		return
 	}
 
-	service, err := h.service.ToggleServiceStatus(uint(id))
+	service, err := h.service.ToggleServiceStatus(c.Request.Context(), uint(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return

@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-07 16:34:43
  * @LastEditors: zs
- * @LastEditTime: 2025-06-07 16:38:54
+ * @LastEditTime: 2025-06-09 16:49:45
  * @FilePath: /barshop-server/internal/router/service_routes.go
  * @Description: 
  * 
@@ -25,15 +25,15 @@ type ServiceRoutes struct {
 func NewPublicServiceRoutes(serviceService *services.ServiceService) *ServiceRoutes {
 	return &ServiceRoutes{
 		BaseRouterGroup: NewBaseRouterGroup("/services"),
-		serviceService:  serviceService,
+		serviceService: serviceService,
 	}
 }
 
 // NewAdminServiceRoutes 创建管理员的服务路由
-func NewAdminServiceRoutes(serviceService *services.ServiceService, authMiddleware, adminMiddleware gin.HandlerFunc) *ServiceRoutes {
+func NewAdminServiceRoutes(serviceService *services.ServiceService,authMiddleware, adminMiddleware gin.HandlerFunc) *ServiceRoutes {
 	return &ServiceRoutes{
 		BaseRouterGroup: NewBaseRouterGroup("/admin/services", authMiddleware, adminMiddleware),
-		serviceService:  serviceService,
+		serviceService: serviceService,
 	}
 }
 

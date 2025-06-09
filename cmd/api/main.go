@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-04 19:31:16
  * @LastEditors: zs
- * @LastEditTime: 2025-06-07 16:22:51
+ * @LastEditTime: 2025-06-08 23:49:07
  * @FilePath: /barshop-server/cmd/api/main.go
  * @Description: 
  * 
@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"github.com/zacus/barshop-server/internal/cache"
 	"github.com/zacus/barshop-server/internal/config"
-	"github.com/zacus/barshop-server/internal/database"
+	"github.com/zacus/barshop-server/internal/database/manager"
 	"github.com/zacus/barshop-server/internal/logger"
 	"github.com/zacus/barshop-server/internal/router"
 	"os"
@@ -58,9 +58,14 @@ func main() {
 	defer logger.Sync()
 
 	// 初始化数据库
-	if err := database.InitDB(cfg); err != nil {
+	dbManager, err := manager.NewDBManager(manager.DBTypePostgres)
+	if err != nil {
+		logger.Fatal("Failed to create database manager", "error", err)
+	}
+	if err := dbManager.Initialize(cfg); err != nil {
 		logger.Fatal("Failed to initialize database", "error", err)
 	}
+	defer dbManager.Close()
 
 	// 初始化Redis缓存
 	if err := cache.InitRedis(cfg); err != nil {
@@ -68,8 +73,8 @@ func main() {
 	}
 	defer cache.Close()
 
-	// 创建路由管理器
-	r := router.NewRouter(cfg)
+	// 创建路由管理器,注入数据库管理器
+	r := router.NewRouter(cfg, dbManager)
 	
 	// 初始化路由
 	r.InitRoutes()

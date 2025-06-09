@@ -2,7 +2,7 @@
  * @Author: zs
  * @Date: 2025-06-04 20:35:23
  * @LastEditors: zs
- * @LastEditTime: 2025-06-04 20:35:23
+ * @LastEditTime: 2025-06-08 00:38:32
  * @FilePath: /barshop-server/internal/cache/redis.go
  * @Description: Redis缓存管理器
  * 
@@ -28,10 +28,10 @@ var (
 // InitRedis 初始化Redis连接
 func InitRedis(cfg *config.Config) error {
 	Client = redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%d", cfg.Cache.Host, cfg.Cache.Port),
-		Password: cfg.Cache.Password,
-		DB:       cfg.Cache.DB,
-		PoolSize: cfg.Cache.PoolSize,
+		Addr:     fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
+		Password: cfg.Redis.Password,
+		DB:       cfg.Redis.DB,
+		PoolSize: cfg.Redis.PoolSize,
 	})
 
 	// 测试连接

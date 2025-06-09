@@ -1,3 +1,13 @@
+/*
+ * @Author: zs
+ * @Date: 2025-06-07 16:35:50
+ * @LastEditors: zs
+ * @LastEditTime: 2025-06-09 16:49:10
+ * @FilePath: /barshop-server/internal/router/appointment_routes.go
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by zs, All Rights Reserved. 
+ */
 package router
 
 import (

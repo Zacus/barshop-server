@@ -14,7 +14,9 @@ type UserHandler struct {
 }
 
 func NewUserHandler(service *services.UserService) *UserHandler {
-	return &UserHandler{service: service}
+	return &UserHandler{
+		service: service,
+	}
 }
 
 // Register 用户注册
@@ -48,7 +50,7 @@ func (h *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
-	if err := h.service.Register(user); err != nil {
+	if err := h.service.Register(c.Request.Context(), user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "注册失败"})
 		return
 	}
@@ -67,7 +69,7 @@ func (h *UserHandler) Login(c *gin.Context) {
 	// 清理数据
 	req.Username = validator.CleanString(req.Username)
 
-	token, err := h.service.Login(req.Username, req.Password)
+	token, err := h.service.Login(c.Request.Context(), req.Username, req.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
 		return
@@ -79,7 +81,7 @@ func (h *UserHandler) Login(c *gin.Context) {
 // GetProfile 获取用户信息
 func (h *UserHandler) GetProfile(c *gin.Context) {
 	userID := utils.GetUserIDFromContext(c)
-	user, err := h.service.GetUserByID(userID)
+	user, err := h.service.GetUserByID(c.Request.Context(), userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "获取用户信息失败"})
 		return
@@ -104,7 +106,7 @@ func (h *UserHandler) UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	if err := h.service.UpdateProfile(userID, &req); err != nil {
+	if err := h.service.UpdateProfile(c.Request.Context(), userID, &req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新失败"})
 		return
 	}
@@ -114,7 +116,7 @@ func (h *UserHandler) UpdateProfile(c *gin.Context) {
 
 // ListBarbers 获取理发师列表
 func (h *UserHandler) ListBarbers(c *gin.Context) {
-	barbers, err := h.service.ListBarbers()
+	barbers, err := h.service.ListBarbers(c.Request.Context())
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse(http.StatusInternalServerError, err.Error()))
 		return
@@ -137,7 +139,7 @@ func (h *UserHandler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	if err := h.service.ChangePassword(userID, req.OldPassword, req.NewPassword); err != nil {
+	if err := h.service.ChangePassword(c.Request.Context(), userID, req.OldPassword, req.NewPassword); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
